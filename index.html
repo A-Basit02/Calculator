@@ -4,125 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Calculator</title>
-    <style>
-    
-        body {
-    font-family: 'Arial', sans-serif, 'cario';
-    margin: 0;
-    padding: 0;
-    background: #0F2027; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 10px; /* Space between the title and calculator */
-    font-family: 'Cairo', sans-serif;
-    color: #ffffff;
-    letter-spacing: 1px;
-}
-
-h1 {
-    background-image: url('https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif');
-    background-size: cover;
-    color: transparent;
-    -moz-background-clip: text;
-    -webkit-background-clip: text;
-    text-transform: uppercase;
-    font-size: 50px;
-    margin: 0;
-}
-
-.calculator {
-    width: 90%;
-    max-width: 400px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.4); /* Translucent white */
-    backdrop-filter: blur(20px); /* Frosted glass effect */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 6px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    color: #333333;
-}
-
-
-        .display {
-            width: 100%;
-            height: 60px;
-            border: none;
-            border-bottom: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 24px;
-            text-align: right;
-            margin-bottom: 20px;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-            color: #333333;
-            outline: none;
-        }
-
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .buttons button {
-            font-size: 18px;
-            padding: 20px;
-            background: #e0e0e0;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        .buttons button:hover {
-            background-color: #d0d0d0;
-            transform: scale(1.05);
-        }
-
-        .buttons button.action {
-            background: #4caf50;
-            color: #ffffff;
-        }
-
-        .buttons button.action:hover {
-            background: #45a049;
-        }
-
-        .buttons button.clear {
-            background: #f44336;
-            color: #ffffff;
-        }
-
-        .buttons button.clear:hover {
-            background: #e53935;
-        }
-
-        .buttons button.erase {
-            background: #ffa500;
-            color: #ffffff;
-        }
-
-        .buttons button.erase:hover {
-            background: #ff8c00;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="title">
         <h1>CALCULATOR</h1>
-       
-       </div>
+    </div>
     <div class="calculator">
         <input type="text" id="calc-display" class="display" placeholder="0" />
         <div class="buttons">
@@ -150,64 +37,9 @@ h1 {
             <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
             <button onclick="appendValue('.')">.</button>
             <button onclick="appendValue('+')">+</button>
-            <button onclick="calculate()" class="action" style="grid-column: span 4; font: size 30px;">=</button>
+            <button onclick="calculate()" class="action" style="grid-column: span 4; font-size: 30px;">=</button>
         </div>
     </div>
-
-    <script>
-        const display = document.getElementById('calc-display');
-
-        // Appends a value to the display at the cursor's current position
-        function appendValue(value) {
-            const start = display.selectionStart || display.value.length;
-            const end = display.selectionEnd || display.value.length;
-            const currentValue = display.value;
-
-            // Insert the value at the cursor position
-            display.value =
-                currentValue.substring(0, start) + value + currentValue.substring(end);
-
-            // Update cursor position
-            display.setSelectionRange(start + value.length, start + value.length);
-        }
-
-        // Clears the entire display
-        function clearDisplay() {
-            display.value = '';
-        }
-
-        // Erases the last character from the display
-        function eraseLast() {
-            const start = display.selectionStart || display.value.length;
-            const end = display.selectionEnd || display.value.length;
-
-            if (start === end) {
-                // No selection, remove the character before the cursor
-                display.value =
-                    display.value.slice(0, start - 1) + display.value.slice(end);
-                display.setSelectionRange(start - 1, start - 1);
-            } else {
-                // If a selection exists, delete the selection
-                display.value =
-                    display.value.slice(0, start) + display.value.slice(end);
-                display.setSelectionRange(start, start);
-            }
-
-            if (display.value === '') {
-                display.value = '0';
-            }
-        }
-
-        // Evaluates the expression using BODMAS
-        function calculate() {
-            try {
-                // Parse and evaluate the expression using Function constructor for BODMAS
-                const expression = display.value.replace('×', '*').replace('÷', '/');
-                display.value = new Function(`return (${expression})`)();
-            } catch (error) {
-                display.value = 'Error';
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
